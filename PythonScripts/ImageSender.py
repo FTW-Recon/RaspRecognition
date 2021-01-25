@@ -1,20 +1,20 @@
 import requests
-import base64
 import json
+
 
 class ImageSender():
     def __init__(self, url):
         self.url = url 
 
-    def Send(self, img):
-        content_type = 'multipart/form-data'
-        data = base64.b64encode(img)
+    def send(self, img, names):
         
-        payload = {'image': data}
-        
-        response = requests.post(self.url, data=payload)
-        
-        if(response.status_code and response.status_code == 200):
+        payload = {'data': img, 'pessoas': names}
+        print(type(img))
+        payload = json.dumps(payload)
+        headers = {'Content-Type':'application/json'}
+        re = requests.post(self.url, headers=headers, data=payload)
+        print(re.status_code)
+        if(re.status_code and re.status_code == 200):
             return True
             
         return False
